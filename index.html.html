@@ -1,0 +1,300 @@
+<html><head><base href="https://cloudminer.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudMiner - Mineração em Nuvem</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --background-color: #ecf0f1;
+    --text-color: #34495e;
+  }
+  
+  body, html {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  nav {
+    background-color: var(--secondary-color);
+    padding: 10px 0;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  nav ul li {
+    margin: 0 10px;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .content {
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .login-form, .dashboard {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  .dashboard-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .dashboard-item h3 {
+    margin-top: 0;
+  }
+  
+  #referralLink {
+    word-break: break-all;
+    background-color: #eee;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>CloudMiner</h1>
+    </div>
+  </header>
+  
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('login')">Login</a></li>
+        <li><a href="#" onclick="showPage('signup')">Cadastro</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div id="home" class="content">
+      <h2>Bem-vindo à CloudMiner</h2>
+      <p>Participe da revolução da mineração em nuvem! Assine nosso serviço mensal e receba porcentagens dos lucros de nossas máquinas de mineração.</p>
+    </div>
+    
+    <div id="login" class="content" style="display: none;">
+      <div class="login-form">
+        <h2>Login</h2>
+        <form onsubmit="return login(event)">
+          <div class="form-group">
+            <label for="loginEmail">E-mail:</label>
+            <input type="email" id="loginEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Senha:</label>
+            <input type="password" id="loginPassword" required>
+          </div>
+          <button type="submit">Entrar</button>
+        </form>
+        <p class="error-message" id="loginError" style="display: none;"></p>
+        <p>Não tem uma conta? <a href="#" onclick="showPage('signup')">Cadastre-se aqui</a>.</p>
+      </div>
+    </div>
+    
+    <div id="signup" class="content" style="display: none;">
+      <div class="login-form">
+        <h2>Cadastro</h2>
+        <form onsubmit="return signup(event)">
+          <div class="form-group">
+            <label for="signupName">Nome:</label>
+            <input type="text" id="signupName" required>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">E-mail:</label>
+            <input type="email" id="signupEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Senha:</label>
+            <input type="password" id="signupPassword" required>
+          </div>
+          <button type="submit">Cadastrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="#" onclick="showPage('login')">Faça login aqui</a>.</p>
+      </div>
+    </div>
+    
+    <div id="dashboard" class="content" style="display: none;">
+      <div class="dashboard">
+        <h2>Painel do Usuário</h2>
+        <div class="dashboard-item">
+          <h3>Seu Saldo</h3>
+          <p id="userBalance">R$ 0,00</p>
+        </div>
+        <div class="dashboard-item">
+          <h3>Link de Convite</h3>
+          <p id="referralLink"></p>
+          <button onclick="copyReferralLink()">Copiar Link</button>
+        </div>
+        <div class="dashboard-item">
+          <h3>Agendar Saque</h3>
+          <form onsubmit="return scheduleWithdrawal(event)">
+            <div class="form-group">
+              <label for="withdrawalAmount">Valor:</label>
+              <input type="number" id="withdrawalAmount" min="0" step="0.01" required>
+            </div>
+            <button type="submit">Agendar Saque</button>
+          </form>
+        </div>
+        <button onclick="logout()">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+    let users = [
+      { name: 'João Silva', email: 'user@example.com', password: 'password', balance: 1500.00 }
+    ];
+    
+    function showPage(pageId) {
+      document.querySelectorAll('.content').forEach(el => el.style.display = 'none');
+      document.getElementById(pageId).style.display = 'block';
+    }
+    
+    function login(event) {
+      event.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        currentUser = user;
+        updateDashboard();
+        showPage('dashboard');
+      } else {
+        const errorElement = document.getElementById('loginError');
+        errorElement.textContent = 'E-mail ou senha incorretos. Por favor, tente novamente.';
+        errorElement.style.display = 'block';
+      }
+    }
+    
+    function signup(event) {
+      event.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      
+      if (users.some(u => u.email === email)) {
+        alert('Este e-mail já está cadastrado. Por favor, use outro e-mail.');
+        return;
+      }
+      
+      const newUser = { name, email, password, balance: 0 };
+      users.push(newUser);
+      
+      alert(`Cadastro realizado com sucesso para ${name}! Você pode fazer login agora.`);
+      showPage('login');
+    }
+    
+    function updateDashboard() {
+      document.getElementById('userBalance').textContent = `R$ ${currentUser.balance.toFixed(2)}`;
+      document.getElementById('referralLink').textContent = `https://cloudminer.com/ref/${btoa(currentUser.email)}`;
+    }
+    
+    function copyReferralLink() {
+      const referralLink = document.getElementById('referralLink').textContent;
+      navigator.clipboard.writeText(referralLink).then(() => {
+        alert('Link de convite copiado para a área de transferência!');
+      });
+    }
+    
+    function scheduleWithdrawal(event) {
+      event.preventDefault();
+      const amount = parseFloat(document.getElementById('withdrawalAmount').value);
+      if (amount > currentUser.balance) {
+        alert('Saldo insuficiente para este saque.');
+      } else {
+        currentUser.balance -= amount;
+        updateDashboard();
+        alert(`Saque de R$ ${amount.toFixed(2)} agendado com sucesso!`);
+      }
+    }
+    
+    function logout() {
+      currentUser = null;
+      showPage('home');
+    }
+  </script>
+</body>
+</html>
